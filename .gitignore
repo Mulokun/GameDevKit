@@ -26,3 +26,14 @@
 *.exe
 *.out
 *.app
+
+#
+Debug/*
+.vs/*
+
+# VS
+*.sln
+*.sdf
+GameDevKit.VC.opendb
+*.vcxproj
+GameDevKit.vcxproj.filters
