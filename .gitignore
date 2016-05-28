@@ -37,3 +37,4 @@ Debug/*
 GameDevKit.VC.opendb
 *.vcxproj
 GameDevKit.vcxproj.filters
+*.user
