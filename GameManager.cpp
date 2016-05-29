@@ -7,6 +7,8 @@ GameManager * GameManager::s_singleton = nullptr;
 GameManager::GameManager()
 {
 	p_screen = nullptr;
+	p_resourcesManager = nullptr;
+	p_stateManager = nullptr;
 
 	init();
 }
@@ -44,6 +46,18 @@ void GameManager::clear()
 		delete p_screen;
 	}
 	p_screen = nullptr;
+
+	if( p_resourcesManager )
+	{
+		delete p_resourcesManager;
+	}
+	p_resourcesManager = nullptr;
+
+	if( p_stateManager )
+	{
+		delete p_stateManager;
+	}
+	p_stateManager = nullptr;
 }
 
 void GameManager::init()
@@ -54,26 +68,31 @@ void GameManager::init()
 	setScreenRatio( sf::Vector2u( 0, 0 ) );
 	setScreenTitle( "No Title" );
 
-	m_isRunning = true;
 	m_isUpdated = true;
 	m_isScissored = false;
+
+	p_resourcesManager = new ResourcesManager();
+	p_stateManager = new StateManager();
+
+	update();
 }
 
 void GameManager::run()
 {
-	update();
-	while( m_isRunning && p_screen->isOpen() )
+	while( p_stateManager->isRunning() && p_screen->isOpen() )
 	{
 		sf::Event event;
 		while( p_screen->pollEvent( event ) )
 		{
 			handleEvent( event );
+			p_stateManager->handleEvent( event );
 		}
 
 		update();
+		p_stateManager->update();
 
 		p_screen->clear( sf::Color::Black );
-		//p_screen->draw(  );
+		p_screen->draw( *p_stateManager );
 		p_screen->display();
 	}
 }

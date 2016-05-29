@@ -4,6 +4,9 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "ResourcesManager.h"
+#include "StateManager.h"
+
 
 class GameManager
 {
@@ -22,7 +25,7 @@ public :
 	void setScreenSize( sf::Vector2u size ) { m_screenSize = size; m_isUpdated = true; }
 	void setScreenRatio( sf::Vector2u ratio ) { m_screenRatio = ratio; m_isUpdated = true; }
 	sf::Vector2u getScreenSize() { return m_screenSize; }
-	sf::Vector2u getScreenIniSize() { return m_screenInitSize; }
+	sf::Vector2u getScreenInitSize() { return m_screenInitSize; }
 	sf::Vector2u getScreenRatio() { return m_screenRatio; }
 	sf::Vector2f getScreenCurrentRatio() { return sf::Vector2f( float(m_screenSize.x / m_screenInitSize.x), float(m_screenSize.y / m_screenInitSize.y) ); }
 	void setScreenTitle( std::string title ) { m_screenTitle = title; m_isUpdated = true; }
@@ -46,8 +49,6 @@ private :
 
 	static GameManager * s_singleton;
 
-	bool m_isRunning;
-
 	sf::RenderWindow * p_screen;
 	sf::Vector2u m_screenSize;
 	sf::Vector2u m_screenRatio;
@@ -56,6 +57,13 @@ private :
 	bool m_isUpdated;
 	bool m_isScissored;
 
+private :
+	ResourcesManager * p_resourcesManager;
+	StateManager * p_stateManager;
+
+public : 
+	ResourcesManager * getResourcesManager() { return p_resourcesManager; }
+	StateManager * getStateManager() { return p_stateManager; }
 };
 
 #endif
